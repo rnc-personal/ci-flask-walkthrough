@@ -7,14 +7,14 @@ app = Flask(__name__)
 # (__name is a built in variable that returns the name of the module python module)
 
 
-@app.route('/')
 # decorator is wrapping the function and adding functionality to it
 # when someone hits the / endpoint, the function index() will be called
+@app.route("/")
 def index():
-    return  "Hello World"
+    return "Hello, World"
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(
-        host=os.getenv('IP', '0.0.0.0.'),
-        port = int(os.environ.get('PORT', 5000)),
-        debug = True)
+        host=os.environ.get("IP", "0.0.0.0"),
+        port=int(os.environ.get("PORT", "5000")),
+        debug=True)
