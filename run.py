@@ -1,6 +1,8 @@
 import os
 import json
-from flask import Flask, render_template
+from flask import Flask, render_template, request, flash
+if os.path.exists("env.py"):
+    import env
 # Import  the flask class from the flask module
 
 app = Flask(__name__)
@@ -8,9 +10,9 @@ app = Flask(__name__)
 #  of the applications module as the parameter
 # (__name is a built in variable that returns
 #  the name of the module python module)
+app.secret_key = os.environ.get("SECRET_KEY")
 
-
-# decorator is wrapping the function and adding functionality to it
+# @app decorator is wrapping the function and adding functionality to it
 # when someone hits the / endpoint, the function index() will be called
 
 # Each of these is a view attached to a route, rendering a page
@@ -42,8 +44,11 @@ def about_member(member_name):
     return render_template("member.html", member=member)
 
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
+    if request.method == "POST":
+        flash("Thanks {}, We received your message".format(
+            request.form.get("name")))
     return render_template("contact.html", page_title="Contact Us")
 
 
